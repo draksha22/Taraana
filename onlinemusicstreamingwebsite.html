@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- APlayer CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css" />
+    <link rel="shortcut icon" href="pic/TaRAaNa.png">
+    <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+
+    <title>Online Music Streaming Website</title>
+    <style>
+        body{
+            background-color: #f7f7f7;
+            font-family: Open sans;
+        }
+
+        ul{
+            list-style: none;
+        }
+
+        a{
+            text-decoration: none;
+        }
+
+        nav{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            background-color: #f7f7f7;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo img{
+            height: 80px;
+            width: 80px;
+        }
+
+        nav .menu{
+            display: flex;
+        }
+
+        nav .menu li a{
+            height: 40px;
+            line-height: 43px;
+            margin: 0px;
+            padding: 0px 22px;
+            display: flex;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: #585858;
+            letter-spacing: 1px;
+        }
+
+        .search{
+            width: 250px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            padding: 0px 20px ;
+        }
+
+        .search input{
+            width: 100%;
+            height: 30px;
+            outline: none;
+            border: none;
+            background-color: transparent;
+        }
+
+        .search i{
+            color: #3a3a3a;
+        }
+
+        nav .menu li a:hover{
+            background-color: #242424;
+            color: #fff;
+            box-shadow: 5px 10px 30px rgba(53, 53, 53, 0.1);
+            transition: all ease 0.2s;
+        }
+
+        img{
+            width: 100%;
+            height: 300px;
+        }
+
+        .main{
+            padding: 90px 0;
+        }
+
+        .col-md-3{
+            margin-bottom: 40px;
+        }
+
+        .albumn-poster{
+            position: relative;
+            display: block;
+            border-radius: 7px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px #3d2173a1;
+            transition: all ease 0.4s;
+        }
+
+        .albumn-poster:hover{
+            box-shadow: none;
+            transform: scale(0.98) translateY(5px);
+        }
+
+        h3{
+            font-size: 34px;
+            margin-bottom: 34px;
+            border-bottom: 4px solid#e6e6e6;
+            padding-bottom: 15px;
+        }
+
+        p{
+            font-style: 15px;
+        }
+
+        .col-md-2{
+            margin-bottom: 40px;
+        }
+
+        h4{
+            font-size: 16px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            font-weight: 700;
+            
+        }
+
+        /* default is hidden music player */
+        #aplayer{
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            box-shadow: 0 -2px 2px #dadada;
+            background-color: #fff;
+            transition: all ease 0.5s;
+        }
+
+        #aplayer.showPlayer{
+            bottom: 0;
+        }
+
+        /*music player customizing style*/
+        span{
+            color: #000 !important;
+            font-style: 16px;
+        }
+
+        .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded{
+            background: #e0e0e0;
+            height: 4px;
+        }
+
+        .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played{
+            background: #219f63 !important;
+            height: 4px;
+        }
+
+        .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb{
+            background: #219f63 !important;
+        }
+
+        footer{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: #000;
+        }
+
+        footer p{
+            color: #ffffff;
+            margin: 10px 0px;
+            font-size: 0.9rem;
+        }
+
+    </style>
+  </head>
+  <body>
+
+    <!--navbar-------------->
+    <nav>
+        <!--logo--------------->
+        <a href="#" class="logo">
+            <img src="pic/TaRAaNa.png" alt="">
+        </a>
+
+        <!--menu----------------->
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Hindi</a></li>
+            <li><a href="#">English</a></li>
+            <li><a href="#">Spanish</a></li>
+            <li><a href="#">K-Pop</a></li>
+        </ul>
+
+        <!--search------------------>
+        <div class="search">
+            <input type="text" placeholder="Find your favourite song" />
+            <!--search icon--------------->
+            <i class="fas fa-search"></i>
+        </div>
+    </nav>
+
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>New Releases</h3>
+                </div>
+                <div class="col-md-3">
+                    <a href="javascript:void();" class="albumn-poster" data-switch="0">
+                        <img src="pic/Baila-Conmigo.jpg" alt="">
+                    </a>
+                    <h4>Baila Conmigo</h4>
+                    <p>Revelacion - 2021</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="1">
+                        <img src="pic/brown-munde.jpg" alt="">
+                    </a>
+                    <h4>Brown Munde</h4>
+                    <p>Brown Munde - 2020</p>
+                </div>
+
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="2">
+                        <img src="pic/at my worst.jpg" alt="">
+                    </a>
+                    <h4>At My Worst</h4>
+                    <p>Pink Planet - 2021</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="3">
+                        <img src="pic/dynamite.jpg" alt="">
+                    </a>
+                    <h4>Dynamite</h4>
+                    <p>Dynamite - 2020</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="4">
+                        <img src="pic/saveyourtears.png" alt="">
+                    </a>
+                    <h4>Save Your Tears</h4>
+                    <p>after Hours - 2020</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#;" class="albumn-poster" data-switch="5">
+                        <img src="pic/nadiyopaar.jpg" alt="">
+                    </a>
+                    <h4>Nadiyon paar</h4>
+                    <p>Roohi - 2021</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="6">
+                        <img src="pic/noche.jpg" alt="">
+                    </a>
+                    <h4>La Noche De Anoche</h4>
+                    <p>El Ultimo Tour Del Mundo - 2020</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="7">
+                        <img src="pic/lost cause.jpg" alt="">
+                    </a>
+                    <h4>Lost Cause</h4>
+                    <p>Lost Cause - 2021</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="8">
+                        <img src="pic/life goes on.jpg" alt="">
+                    </a>
+                    <h4>Life Goes On</h4>
+                    <p>BE - 2020</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="9">
+                        <img src="pic/lut gaye.jpeg" alt="">
+                    </a>
+                    <h4>Lut Gaye</h4>
+                    <p>Lut Gaye - 2021</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="10">
+                        <img src="pic/olivia.jpeg" alt="">
+                    </a>
+                    <h4>Brutal</h4>
+                    <p>Sour - 2021</p>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#" class="albumn-poster" data-switch="11">
+                        <img src="pic/peaches.jpg" alt="">
+                    </a>
+                    <h4>Peaches</h4>
+                    <p>Justice - 2021</p>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>BTS</h3>
+                </div>
+                <div class="col-md-2">
+                    <a href="javascript:void();" class="albumn-poster" data-switch="12">
+                        <img src="pic/black swan.jpeg" alt="">
+                    </a>
+                    <h4>Black Swan</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="13">
+                        <img src="pic/boy with love.jpg" alt="">
+                    </a>
+                    <h4>Boy with Love</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="14">
+                        <img src="pic/blood sweat and tears.jpeg" alt="">
+                    </a>
+                    <h4>Blood Sweat & Tears</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="15">
+                        <img src="pic/dna.png" alt="">
+                    </a>
+                    <h4>DNA</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="16">
+                        <img src="pic/filter.jpg" alt="">
+                    </a>
+                    <h4>Filter</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="17">
+                        <img src="pic/fire.jpg" alt="">
+                    </a>
+                    <h4>Fire</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="18">
+                        <img src="pic/fake love.jpg" alt="">
+                    </a>
+                    <h4>Fake Love</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="19">
+                        <img src="pic/friends.jpg" alt="">
+                    </a>
+                    <h4>Friends</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="20">
+                        <img src="pic/idol.jpeg" alt="">
+                    </a>
+                    <h4>Idol</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="21">
+                        <img src="pic/louder than bombs.jpg" alt="">
+                    </a>
+                    <h4>Louder Than Bombs</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="22">
+                        <img src="pic/mic drop.jpg" alt="">
+                    </a>
+                    <h4>Mic Drop</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="23">
+                        <img src="pic/moon.jpg" alt="">
+                    </a>
+                    <h4>Moon</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="24">
+                        <img src="pic/on.jpg" alt="">
+                    </a>
+                    <h4>ON: Kinetic Manefesto</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="25">
+                        <img src="pic/telepathy.jpg" alt="">
+                    </a>
+                    <h4>Telepathy</h4>
+                </div>
+
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="26">
+                        <img src="pic/bulletproof.jpg" alt="">
+                    </a>
+                    <h4>We Are BulletProof</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="27">
+                        <img src="pic/even if i die.jpg" alt="">
+                    </a>
+                    <h4>Even If I Die, It's You</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="28">
+                        <img src="pic/respect.jpg" alt="">
+                    </a>
+                    <h4>RESPECT</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="#" class="albumn-poster" data-switch="29">
+                        <img src="pic/inner child.jpg" alt="">
+                    </a>
+                    <h4>Inner Child</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--footer---------------->
+    <footer>
+        <p>Copyright &copy Draksha Khan | 2021. All Rights Reserved.</p>
+    </footer>
+        
+    <div id="aplayer"></div>
+
+    <!-- Jquery link -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+
+    <!-- Bootstrap link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- APlayerJquery link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script>
+
+    <script>
+
+        $(".albumn-poster").on('click', function(e){
+            var dataSwitchId = $(this).attr('data-switch');
+            console.log(dataSwitchId);
+
+            //aplayer switch function 
+            ap.list.switch(dataSwitchId);
+            
+            //aplayer play function
+            ap.play(); 
+
+            $("#aplayer").addClass('showPlayer');
+        });
+
+        const ap = new APlayer({
+            container: document.getElementById('aplayer'),
+            listFolded: true,
+            audio: [
+            {
+                name: 'Baila Conmigo',
+                artist: 'Selena Gomez, Rauw Alejandro',
+                url: 'latest/Baila Conmigo.mp3',
+                cover: 'pic/Baila-Conmigo.jpg'
+            },
+            
+            {
+                name: 'Brown Munde',
+                artist: 'Ap Dhillon, Gurinder Gill',
+                url: 'latest/Brown Munde.mp3',
+                cover: 'pic/brown-munde.jpg'
+            },
+
+            {
+                name: 'At My Worst',
+                artist: 'Pink Sweat',
+                url: 'latest/At_My_Worst.mp3',
+                cover: 'pic/at my worst.jpg'
+            },
+
+            {
+                name: 'Dynamite',
+                artist: 'BTS',
+                url: 'latest/Dynamite.mp3',
+                cover: 'pic/dynamite.jpg'
+            },
+
+            {
+                name: 'Save Your Tears',
+                artist: 'The Weeknd',
+                url: 'latest/Save Your Tears.mp3',
+                cover: 'pic/saveyourtears.png'
+            },
+
+            {
+                name: 'Nadiyon Paar',
+                artist: 'Rashmeet',
+                url: 'latest/Nadiyon Paar.mp3',
+                cover: 'pic/nadiyopaar.jpg'
+            },
+
+            {
+                name: 'LA NOCHE DE ANOCHE',
+                artist: 'Bad Bunny, Rosalia',
+                url: 'latest/LA NOCHE DE ANOCHE.mp3',
+                cover: 'pic/noche.jpg'
+            },
+
+            {
+                name: 'Lost Cause',
+                artist: 'Billie Eilish',
+                url: 'latest/Lost Cause.mp3',
+                cover: 'pic/lost cause.jpg'
+            },
+
+            {
+                name: 'Life Goes On',
+                artist: 'BTS',
+                url: 'latest/Life Goes On.mp3',
+                cover: 'pic/life goes on.jpg'
+            },
+
+            {
+                name: 'Lut Gaye',
+                artist: 'Jubin Nautiyal',
+                url: 'latest/Lut Gaye.mp3',
+                cover: 'pic/lut gaye.jpeg'
+            },
+
+            {
+                name: 'SOUR',
+                artist: 'Olivia Rodrigo',
+                url: 'latest/Brutal.mp3',
+                cover: 'pic/olivia.jpeg'
+            },
+
+            {
+                name: 'Peaches',
+                artist: 'Justin Bieber',
+                url: 'latest/Peaches.mp3',
+                cover: 'pic/peaches.jpg'
+            },
+
+            {
+                name: 'Black Swan',
+                artist: 'BTS',
+                url: 'bts/Black Swan.mp3',
+                cover: 'pic/black swan.jpeg'
+            },
+
+            {
+                name: 'Boy With Love',
+                artist: 'Justin Bieber',
+                url: 'bts/Boy With Love.mp3',
+                cover: 'pic/boy with love.jpg'
+            },
+
+            {
+                name: 'Blood sweat and Tears',
+                artist: 'BTS',
+                url: 'bts/bst.mp3',
+                cover: 'pic/blood sweat and tears.jpeg'
+            },
+
+            {
+                name: 'DNA',
+                artist: 'BTS',
+                url: 'bts/dna.mp3',
+                cover: 'pic/dna.png'
+            },
+
+            {
+                name: 'Filter',
+                artist: 'Jimin',
+                url: 'bts/Filter.mp3',
+                cover: 'pic/filter.jpg'
+            },
+
+            {
+                name: 'Fire',
+                artist: 'BTS',
+                url: 'bts/fire.mp3',
+                cover: 'pic/fire.jpg'
+            },
+
+            {
+                name: 'Fake Love',
+                artist: 'BTS',
+                url: 'bts/fl.mp3',
+                cover: 'pic/fake love.jpg'
+            },
+
+            {
+                name: 'Friends',
+                artist: 'V, Jimin',
+                url: 'bts/Friends-VMin.mp3',
+                cover: 'pic/friends.jpg'
+            },
+
+            {
+                name: 'Idol',
+                artist: 'BTS',
+                url: 'bts/idol.mp3',
+                cover: 'pic/idol.jpeg'
+            },
+
+            {
+                name: 'Louder Than Bombs',
+                artist: 'BTS',
+                url: 'bts/LTB.mp3',
+                cover: 'pic/louder than bombs.jpg'
+            },
+
+            {
+                name: 'Mic Drop',
+                artist: 'BTS',
+                url: 'bts/md.mp3',
+                cover: 'pic/mic drop.jpg'
+            },
+
+            {
+                name: 'Moon',
+                artist: 'Jin',
+                url: 'bts/Moon.mp3',
+                cover: 'pic/moon.jpg'
+            },
+
+            {
+                name: 'On: Kinetic Manefesto',
+                artist: 'BTS',
+                url: 'bts/ON.mp3',
+                cover: 'pic/on.jpg'
+            },
+
+            {
+                name: 'Telepathy',
+                artist: 'BTS',
+                url: 'bts/TP.mp3',
+                cover: 'pic/telepathy.jpg'
+            },
+
+            {
+                name: 'We Are BulletProof',
+                artist: 'BTS',
+                url: 'bts/WABP.mp3',
+                cover: 'pic/bulletproof.jpg'
+            },
+
+            {
+                name: 'Even If I Die, It s You',
+                artist: 'Jin & V',
+                url: 'bts/Even If I Die, It s You.mp3',
+                cover: 'pic/even if i die.jpg'
+            },
+
+            {
+                name: 'Respect',
+                artist: 'RM & Suga',
+                url: 'bts/RESPECT.mp3',
+                cover: 'pic/respect.jpg'
+            },
+
+            {
+                name: 'Inner Child ',
+                artist: 'V',
+                url: 'bts/Inner Child.mp3',
+                cover: 'pic/inner child.jpg'
+            }
+            ]
+        });
+    </script>
+
+    
+  </body>
+</html>
